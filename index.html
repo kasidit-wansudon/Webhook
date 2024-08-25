@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Notifications</title>
+</head>
+<body>
+    <h1>Webhook Notifications</h1>
+    <div id="notifications"></div>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8081');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const notificationsDiv = document.getElementById('notifications');
+            notificationsDiv.innerHTML += `<p>Event: ${data.event}, Message: ${data.message}</p>`;
+        };
+
+        socket.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+    </script>
+</body>
+</html>
